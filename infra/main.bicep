@@ -67,41 +67,6 @@ module spokeVnet '../infra-lib/infra/modules/networking/vnet.bicep' = {
   }
 }
 
-// Application NSG on app subnet
-module appNsg '../infra-lib/infra/modules/networking/nsg.bicep' = {
-  name: 'nsg-app-${environment}'
-  scope: rg
-  params: {
-    location: location
-    environment: environment
-    resourceNamePrefix: '${resourceNamePrefix}app'
-    tags: commonTags
-    subnetId: spokeVnet.outputs.appSubnetId
-    rules: [
-      {
-        name: 'Allow-HTTP-HTTPS'
-        priority: 200
-        direction: 'Inbound'
-        access: 'Allow'
-        protocol: 'Tcp'
-        sourcePortRanges: [
-          '*'
-        ]
-        destinationPortRanges: [
-          '80'
-          '443'
-        ]
-        sourceAddressPrefixes: [
-          'Internet'
-        ]
-        destinationAddressPrefixes: [
-          '*'
-        ]
-      }
-    ]
-  }
-}
-
 // Hub ⇄ Spoke peering
 module vnetPeering '../infra-lib/infra/modules/networking/vnet-peering.bicep' = {
   name: 'hub-spoke-peering-${environment}'
