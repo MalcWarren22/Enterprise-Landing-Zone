@@ -1,0 +1,19 @@
+infra-lib/
+  modules/
+    network/
+      hub-vnet.bicep
+      spoke-vnet.bicep
+      nsg.bicep
+      vnet-peering.bicep
+    security/
+      keyvault.bicep
+      private-endpoint.bicep
+    data/
+      storage.bicep
+      sql.bicep
+    compute/
+      appservice.bicep
+    monitoring/
+      log-analytics.bicep
+      app-insights.bicep
+      diagnostic-settings.bicep
