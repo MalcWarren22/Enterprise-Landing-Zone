@@ -7,7 +7,7 @@ targetScope = 'subscription'
 param environment string = 'dev'
 
 @description('Primary Azure region for Project A')
-param location string = 'eastus'
+param location string = 'eastus2'
 
 @description('Resource group name for this landing zone')
 param rgName string = 'rg-projectA-${environment}'
@@ -175,6 +175,7 @@ module appInsights '../infra-lib/infra/modules/monitoring/app-insights.bicep' = 
   params: {
     location: location
     environment: environment
+    resourceNamePrefix: resourceNamePrefix
     tags: commonTags
     appServiceName: appService.outputs.appServiceName
     logAnalyticsWorkspaceId: logAnalytics.outputs.workspaceId
