@@ -104,7 +104,7 @@ This project demonstrates:
 ---
 
 ## Architecture Diagram
-Included at `/docs/architecture.png`  
+Included at `/docs/assets/enterpriselandingzone.png`  
 
 ---
 
