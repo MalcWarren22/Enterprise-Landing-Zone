@@ -7,7 +7,7 @@ This repository contains a fully modular **Azure Landing Zone**, engineered usin
 
 ## **Architecture Overview**
 
-Your Azure environment implements:
+The Azure environment implements:
 
 ### **Hub–Spoke Network Topology**
 - **Hub VNet** (`10.0.0.0/16`)
