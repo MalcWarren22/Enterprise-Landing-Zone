@@ -103,7 +103,7 @@ This project demonstrates:
 
 ---
 
-## 🖼️ Architecture Diagram
+## Architecture Diagram
 Included at `/docs/architecture.png`  
 
 ---
