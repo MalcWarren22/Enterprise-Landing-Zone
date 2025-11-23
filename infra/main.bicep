@@ -1,4 +1,4 @@
-// Project A: Azure Landing Zone
+// Enterprise Azure Landing Zone
 // Hub–Spoke + Private Endpoints (Storage, SQL, Key Vault) + App Service + Monitoring
 
 targetScope = 'subscription'
@@ -6,7 +6,7 @@ targetScope = 'subscription'
 @description('Short environment name (dev, test, prod)')
 param environment string = 'dev'
 
-@description('Primary Azure region for Project A')
+@description('Primary Azure region for the Project')
 param location string = 'eastus2'
 
 @description('Resource group name for this landing zone')
@@ -16,7 +16,7 @@ param rgName string = 'rg-projectA-${environment}'
 param resourceNamePrefix string = 'prja'
 
 @secure()
-@description('SQL admin password for the Project A SQL Server')
+@description('SQL admin password for the SQL Server')
 param sqlAdminPassword string
 
 @description('Tags to apply to all resources')
@@ -27,7 +27,7 @@ param commonTags object = {
 }
 
 // ------------------------------------------
-// Resource Group for Project A
+// Resource Group
 // ------------------------------------------
 resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: rgName
