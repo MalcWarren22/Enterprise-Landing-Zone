@@ -113,5 +113,3 @@ Included at `/docs/assets/enterpriselandingzone.png`
 Future Cloud Architect | Azure & DevOps | Cloud Advocate
 Norfolk State University | ☁️ AZ-104/305 (In Progress)
 
----
-
