@@ -109,8 +109,8 @@ Included at `/docs/assets/enterpriselandingzone.png`
 ---
 
 ## Author
-Cloud Architect: **Malcolm Warren**  
-Built with: Azure, Bicep, Azure CLI, Github Actions (CI/CD)
-
+**Malcolm Warren**  
+Future Cloud Architect | Azure & DevOps | Cloud Advocate
+Norfolk State University | ☁️ AZ-104/305 (In Progress)
 ---
 
