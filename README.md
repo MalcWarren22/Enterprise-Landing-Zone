@@ -110,5 +110,10 @@ Included at `/docs/assets/enterpriselandingzone.png`
 
 ## Author
 **Malcolm Warren**  
+<<<<<<< HEAD
 Future Cloud Architect | Azure & DevOps | Cloud Advocate ☁️
+=======
+Future Cloud Architect | Azure & DevOps | Cloud Advocate
+Norfolk State University | ☁️ AZ-104/305 (In Progress)
+>>>>>>> bfdb950c7c86ec11e338ac3e93327a53419a7a05
 
