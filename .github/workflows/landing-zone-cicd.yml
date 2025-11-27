@@ -27,6 +27,7 @@ jobs:
 
       - name: Debug repo layout
         run: |
+          echo "PWD:"
           pwd
           echo "---- root ----"
           ls
