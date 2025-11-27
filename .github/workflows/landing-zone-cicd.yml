@@ -22,8 +22,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.GH_INFRA_LIB_PAT }}
 
       - name: Debug repo layout
         run: |
@@ -90,8 +91,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.GH_INFRA_LIB_PAT }}
 
       - name: Azure Login (Test)
         uses: azure/login@v2
@@ -143,8 +145,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.GH_INFRA_LIB_PAT }}
 
       - name: Azure Login (Prod)
         uses: azure/login@v2
