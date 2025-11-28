@@ -44,14 +44,12 @@ module appNsg '../infra-lib/infra/modules/networking/nsg.bicep' = {
   name: 'nsg-app-${environment}'
   scope: rg
   params: {
-    // NSG module only supports: name, rules
     name: 'nsg-${resourceNamePrefix}-app-${environment}'
-    // No custom rules yet -> rely on default NSG rules
     rules: []
   }
 }
 
-// Hub VNet (no NSG needed here)
+// Hub VNet
 module hubVnet '../infra-lib/infra/modules/networking/vnet.bicep' = {
   name: 'hub-vnet-${environment}'
   scope: rg
@@ -68,7 +66,7 @@ module hubVnet '../infra-lib/infra/modules/networking/vnet.bicep' = {
   }
 }
 
-// Spoke / App VNet (NSG bound to app subnet)
+// Spoke VNet
 module spokeVnet '../infra-lib/infra/modules/networking/vnet.bicep' = {
   name: 'spoke-vnet-${environment}'
   scope: rg
@@ -101,7 +99,7 @@ module vnetPeering '../infra-lib/infra/modules/networking/vnet-peering.bicep' = 
 // Data: Storage + SQL + Private Endpoints
 // ------------------------------------------
 
-// Storage Account (private)
+// Storage Account
 module storage '../infra-lib/infra/modules/data/storage-account.bicep' = {
   name: 'stg-${environment}'
   scope: rg
@@ -114,7 +112,7 @@ module storage '../infra-lib/infra/modules/data/storage-account.bicep' = {
   }
 }
 
-// SQL Server + Database (private)
+// SQL Server + Database
 module sql '../infra-lib/infra/modules/data/sqlserver-db.bicep' = {
   name: 'sql-${environment}'
   scope: rg
@@ -127,7 +125,7 @@ module sql '../infra-lib/infra/modules/data/sqlserver-db.bicep' = {
   }
 }
 
-// Private Endpoint: Storage (blob)
+// Private Endpoint: Storage
 module stgPrivateEndpoint '../infra-lib/infra/modules/security/private-endpoint.bicep' = {
   name: 'pe-stg-${environment}'
   scope: rg
@@ -164,23 +162,21 @@ module logAnalytics '../infra-lib/infra/modules/monitoring/log-analytics.bicep' 
   name: 'law-${environment}'
   scope: rg
   params: {
-    name: '${resourceNamePrefix}-law-${environment}'
     location: location
+    environment: environment
+    resourceNamePrefix: resourceNamePrefix
+    tags: commonTags
     retentionInDays: 30
   }
 }
 
-// ------------------------------------------
-// Key Vault (locked down + private endpoint)
-// ------------------------------------------
-
+// Key Vault
 module keyVault '../infra-lib/infra/modules/security/keyvault.bicep' = {
   name: 'kv-${environment}'
   scope: rg
   params: {
     name: '${resourceNamePrefix}-kv-${environment}'
     location: location
-    // wired into Log Analytics workspace for diagnostics
     logAnalyticsWorkspaceId: logAnalytics.outputs.workspaceId
   }
 }
@@ -199,7 +195,7 @@ module kvPrivateEndpoint '../infra-lib/infra/modules/security/private-endpoint.b
   }
 }
 
-// App Service (for web/API workload)
+// App Service
 module appService '../infra-lib/infra/modules/compute/appservice-webapi.bicep' = {
   name: 'appsvc-${environment}'
   scope: rg
@@ -209,12 +205,11 @@ module appService '../infra-lib/infra/modules/compute/appservice-webapi.bicep' =
     resourceNamePrefix: resourceNamePrefix
     tags: commonTags
     subnetId: spokeVnet.outputs.appSubnetId
-    // now wired to real Key Vault URI
     keyVaultUri: keyVault.outputs.keyVaultUri
   }
 }
 
-// Application Insights bound to Log Analytics
+// Application Insights
 module appInsights '../infra-lib/infra/modules/monitoring/app-insights.bicep' = {
   name: 'appi-${environment}'
   scope: rg
@@ -228,7 +223,7 @@ module appInsights '../infra-lib/infra/modules/monitoring/app-insights.bicep' = 
 }
 
 // ------------------------------------------
-// Outputs for app teams / documentation
+// Outputs
 // ------------------------------------------
 output projectAResourceGroupName string = rg.name
 output hubVnetId string = hubVnet.outputs.vnetId
