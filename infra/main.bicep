@@ -233,12 +233,10 @@ module appInsights '../infra-lib/infra/modules/monitoring/app-insights.bicep' = 
   name: 'appi-${environment}'
   scope: rg
   params: {
+    // Full Global Unqiue name
+    name: '${resourceNamePrefix}-appi-${environment}'
     location: location
-    environment: environment
-    resourceNamePrefix: resourceNamePrefix
-    tags: commonTags
-    logAnalyticsWorkspaceId: logAnalytics.outputs.workspaceId
-    appServiceName: appService.outputs.appServiceName
+    workspaceId: logAnalytics.outputs.workspaceId
   }
 }
 
