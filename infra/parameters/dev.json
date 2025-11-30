@@ -5,7 +5,7 @@
     "environment": { "value": "dev" },
     "location": { "value": "eastus2" },
     "rgName": { "value": "rg-prja02-dev" },
-    "resourceNamePrefix": { "value": "prja04" },
+    "resourceNamePrefix": { "value": "prja05" },
     "commonTags": {
       "value": {
         "environment": "dev",
