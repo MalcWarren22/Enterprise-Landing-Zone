@@ -13,6 +13,13 @@
     },
     "resourceNamePrefix": {
       "value": "prja02"
+    },
+    "commonTags": {
+      "value": {
+        "environment": "test",
+        "project": "ProjectA-LandingZone",
+        "owner": "CloudArchitect"
+      }
     }
   }
 }
