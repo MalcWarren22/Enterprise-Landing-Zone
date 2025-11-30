@@ -7,39 +7,26 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  LOCATION: eastus2
+
 jobs:
   deploy-dev:
     name: Deploy to Dev
     runs-on: ubuntu-latest
     environment: dev
     env:
-      LOCATION: eastus2
       DEPLOYMENT_NAME: enterprise-landing-zone-dev
       PARAM_FILE: infra/parameters/dev.json
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID_DEV }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (with submodules)
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
           token: ${{ secrets.GH_INFRA_LIB_PAT }}
-
-      - name: Debug repo layout
-        run: |
-          echo "PWD:"
-          pwd
-          echo "---- root ----"
-          ls
-          echo "---- infra ----"
-          ls infra || echo "infra missing"
-          echo "---- infra-lib ----"
-          ls infra-lib || echo "infra-lib missing"
-          echo "---- infra-lib/infra ----"
-          ls infra-lib/infra || echo "infra-lib/infra missing"
-          echo "---- infra-lib/infra/modules ----"
-          ls infra-lib/infra/modules || echo "infra-lib/infra/modules missing"
 
       - name: Azure Login (Dev)
         uses: azure/login@v2
@@ -56,16 +43,19 @@ jobs:
       - name: Validate Bicep (Dev)
         run: |
           az deployment sub validate \
+            --name ${DEPLOYMENT_NAME}-validate \
             --location $LOCATION \
             --template-file infra/main.bicep \
-            --parameters @$PARAM_FILE
+            --parameters @$PARAM_FILE \
+            --parameters sqlAdminPassword='${{ secrets.SQL_ADMIN_PASSWORD_DEV }}'
 
       - name: What-if (Dev)
         run: |
           az deployment sub what-if \
             --location $LOCATION \
             --template-file infra/main.bicep \
-            --parameters @$PARAM_FILE
+            --parameters @$PARAM_FILE \
+            --parameters sqlAdminPassword='${{ secrets.SQL_ADMIN_PASSWORD_DEV }}'
 
       - name: Deploy (Dev)
         run: |
@@ -82,13 +72,12 @@ jobs:
     needs: deploy-dev
     environment: test
     env:
-      LOCATION: eastus2
       DEPLOYMENT_NAME: enterprise-landing-zone-test
       PARAM_FILE: infra/parameters/test.json
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID_TEST }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (with submodules)
         uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -110,16 +99,19 @@ jobs:
       - name: Validate Bicep (Test)
         run: |
           az deployment sub validate \
+            --name ${DEPLOYMENT_NAME}-validate \
             --location $LOCATION \
             --template-file infra/main.bicep \
-            --parameters @$PARAM_FILE
+            --parameters @$PARAM_FILE \
+            --parameters sqlAdminPassword='${{ secrets.SQL_ADMIN_PASSWORD_TEST }}'
 
       - name: What-if (Test)
         run: |
           az deployment sub what-if \
             --location $LOCATION \
             --template-file infra/main.bicep \
-            --parameters @$PARAM_FILE
+            --parameters @$PARAM_FILE \
+            --parameters sqlAdminPassword='${{ secrets.SQL_ADMIN_PASSWORD_TEST }}'
 
       - name: Deploy (Test)
         run: |
@@ -136,13 +128,12 @@ jobs:
     needs: deploy-test
     environment: prod
     env:
-      LOCATION: eastus2
       DEPLOYMENT_NAME: enterprise-landing-zone-prod
       PARAM_FILE: infra/parameters/prod.json
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID_PROD }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (with submodules)
         uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -164,16 +155,19 @@ jobs:
       - name: Validate Bicep (Prod)
         run: |
           az deployment sub validate \
+            --name ${DEPLOYMENT_NAME}-validate \
             --location $LOCATION \
             --template-file infra/main.bicep \
-            --parameters @$PARAM_FILE
+            --parameters @$PARAM_FILE \
+            --parameters sqlAdminPassword='${{ secrets.SQL_ADMIN_PASSWORD_PROD }}'
 
       - name: What-if (Prod)
         run: |
           az deployment sub what-if \
             --location $LOCATION \
             --template-file infra/main.bicep \
-            --parameters @$PARAM_FILE
+            --parameters @$PARAM_FILE \
+            --parameters sqlAdminPassword='${{ secrets.SQL_ADMIN_PASSWORD_PROD }}'
 
       - name: Deploy (Prod)
         run: |
